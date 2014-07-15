@@ -1,0 +1,16 @@
+<f:layout name="Default" />
+
+<f:section name="subtitle">
+	<h2>Create a new badge class</h2>
+</f:section>
+
+<f:section name="content">
+	<f:form action="create" class="user user-edit" objectName="badgeClass" enctype="multipart/form-data">
+		<f:render partial="Module/BadgeClass/Fields" arguments="{_all}" />
+
+		<div class="neos-footer">
+			<f:link.action action="index" class="neos-button">Cancel</f:link.action>
+			<f:form.submit value="Create badge class" class="neos-button neos-button-primary" />
+		</div>
+	</f:form>
+</f:section>

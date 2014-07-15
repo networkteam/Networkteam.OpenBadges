@@ -1,0 +1,20 @@
+prototype(Networkteam.OpenBadges:BadgeReward) {
+	# TODO This will select too many assertion steps if multiple badges are rewarded on a single page (or if badgeClass is null for a step)
+	badgeAssertionSteps = ${q(documentNode).children('[instanceof TYPO3.Neos:ContentCollection]').find('[instanceof Networkteam.OpenBadges:BadgeAssertionStep]')}
+}
+
+prototype(TYPO3.Neos:Page) {
+	body.javascripts {
+		OpenBadges = '<script src="https://beta.openbadges.org/issuer.js"></script>' {
+			@position = 'end'
+		}
+
+		NetworkteamOpenBadges = TYPO3.TypoScript:Tag {
+			tagName = 'script'
+			attributes.src = TYPO3.TypoScript:ResourceUri {
+				path = 'resource://Networkteam.OpenBadges/Public/Scripts/Frontend/OpenBadges.js'
+			}
+			@position = 'after jquery'
+		}
+	}
+}

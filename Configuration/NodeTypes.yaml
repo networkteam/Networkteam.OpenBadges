@@ -1,0 +1,34 @@
+'Networkteam.OpenBadges:BadgeAssertionStep':
+  abstract: TRUE
+  ui:
+    inspector:
+      groups:
+        badgeAssertion:
+          label: 'Badge assertion'
+          position: 100
+  properties:
+    badgeClass:
+      type: 'Networkteam\OpenBadges\Domain\Model\BadgeClass'
+      ui:
+        label: 'Assertion for badge class'
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'badgeAssertion'
+
+'Networkteam.OpenBadges:BadgeReward':
+  superTypes: ['TYPO3.Neos:Content']
+  ui:
+    label: 'Badge reward'
+    icon: 'icon-certificate'
+    inspector:
+      groups:
+        badgeClass:
+          label: 'Badge class'
+  properties:
+    badgeClass:
+      type: 'Networkteam\OpenBadges\Domain\Model\BadgeClass'
+      ui:
+        label: 'Reward this badge'
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'badgeClass'

@@ -1,0 +1,22 @@
+{
+	"name": "networkteam/openbadges",
+	"type": "typo3-flow-package",
+	"description": "An open badges issuer implementation for TYPO3 Flow and Neos",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Christopher Hlubek",
+			"email": "hlubek@networkteam.com",
+			"homepage": "http://www.networkteam.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"typo3/neos": "~1.1"
+	},
+	"autoload": {
+		"psr-0": {
+			"Networkteam\\OpenBadges": "Classes"
+		}
+	}
+}

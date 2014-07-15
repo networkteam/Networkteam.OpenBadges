@@ -1,0 +1,12 @@
+resources:
+  methods:
+    Networkteam_OpenBadges_Public: 'method(Networkteam\OpenBadges\Controller\(IssuerOrganization|BadgeClass|BadgeAssertion)Controller->.*Action())'
+    Networkteam_OpenBadges_Module_BadgeClass: 'method(Networkteam\OpenBadges\Controller\Module\BadgeClassController->.*Action())'
+
+acls:
+  Everybody:
+    methods:
+      Networkteam_OpenBadges_Public: GRANT
+  'TYPO3.Neos:Administrator':
+    methods:
+      Networkteam_OpenBadges_Module_BadgeClass: GRANT

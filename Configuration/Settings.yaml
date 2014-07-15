@@ -1,0 +1,62 @@
+Networkteam:
+  OpenBadges:
+
+    # Static configuration of issuer organizations
+    issuerOrganizations:
+
+      # Static identifier of the issuer
+      main:
+
+        # Configure the name of the issuing organization
+        #
+        name: 'Open badge issuer'
+
+        # Provide a URL that is displayed for the issuer, optional
+        # Will be taken from the current URL of the webserver by default
+        #
+        # url: 'http://www.example.com'
+
+        # A short description of the institution, optional
+        #
+        # description: 'Description'
+
+        # Contact address for someone at the organization
+        #
+        # email: 'organization@example.com'
+
+        # An image representing the institution
+        #
+        # A Flow resource URI to a public resource can be used that will
+        # be exposed with a public URL
+        #
+        # image: 'resource://Vendor.PackageKey/Public/Path/To/Image.png'
+
+TYPO3:
+  Neos:
+
+    modules:
+      administration:
+        submodules:
+          badges:
+            label: 'OpenBadges Management'
+            controller: '\Networkteam\OpenBadges\Controller\Module\BadgeClassController'
+            description: 'Create and manage badge classes for OpenBadges.'
+            icon: 'icon-certificate'
+            actions:
+              new:
+                label: 'Create badge'
+                title: 'Create a new badge class'
+            resource: 'Networkteam_OpenBadges_Module_BadgeClass'
+
+    userInterface:
+      requireJsPathMapping:
+        'Networkteam.OpenBadges/Inspector/Editors': 'resource://Networkteam.OpenBadges/Public/Scripts/Inspector/Editors/'
+
+      inspector:
+        dataTypes:
+          'Networkteam\OpenBadges\Domain\Model\BadgeClass':
+            editor: 'Networkteam.OpenBadges/Inspector/Editors/BadgeClassEditor'
+
+    typoScript:
+      autoInclude:
+        'Networkteam.OpenBadges': TRUE

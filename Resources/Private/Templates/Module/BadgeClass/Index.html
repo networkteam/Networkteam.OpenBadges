@@ -1,0 +1,77 @@
+{namespace m=TYPO3\Media\ViewHelpers}
+<f:layout name="Default" />
+
+<f:section name="content">
+	<div class="neos-row-fluid">
+		<f:if condition="{badgeClasses}">
+			<f:then>
+				<f:widget.paginate objects="{badgeClasses}" as="paginatedBadgeClasses" configuration="{itemsPerPage: 30, maximumNumberOfLinks: 7}">
+					<table class="neos-table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Tags</th>
+								<th class="neos-action"></th>
+							</tr>
+						</thead>
+						<tbody>
+						<f:for each="{paginatedBadgeClasses}" as="badgeClass">
+							<tr>
+								<td>
+									<div class="neos-list-thumbnail">
+										<m:image asset="{badgeClass.image}" allowCropping="false" maximumWidth="40" maximumHeight="40" alt="{badgeClass.name}"/>
+									</div>
+								</td>
+								<td>{badgeClass.name}</td>
+								<td><f:format.crop maxCharacters="50">{badgeClass.description}</f:format.crop></td>
+								<td class="tags"><f:for each="{badgeClass.tags}" as="tag">
+									<span class="neos-label">{tag}</span>
+								</f:for>
+								</td>
+								<td class="neos-action">
+									<f:link.action action="edit" title="Edit badge class" class="neos-button neos-button-mini" arguments="{badgeClass: badgeClass}"><i class="icon-pencil"></i></f:link.action>
+									<button class="neos-button neos-button-danger" title="Delete badge class" data-toggle="modal" href="#{badgeClass -> f:format.identifier()}">
+										<i class="icon-trash icon-white"></i>
+									</button>
+									<div class="neos-hide" id="{badgeClass -> f:format.identifier()}">
+										<div class="neos-modal">
+											<div class="neos-modal-header">
+												<button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+												<div class="neos-header">Do you really want to delete the badge class "{badgeClass.name}"?</div>
+												<div>
+													<div class="neos-subheader">
+														<p>This will delete the badge class and prevents earners from validating existing badges!<br />This operation cannot be undone.</p>
+													</div>
+												</div>
+											</div>
+											<div class="neos-modal-footer">
+												<a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+												<f:form action="delete" arguments="{badgeClass: badgeClass}" class="neos-inline">
+													<button type="submit" class="neos-button neos-button-danger" title="Delete badge class">
+														Yes, delete the badge class
+													</button>
+												</f:form>
+											</div>
+										</div>
+										<div class="neos-modal-backdrop neos-in"></div>
+									</div>
+								</td>
+							</tr>
+						</f:for>
+						</tbody>
+					</table>
+				</f:widget.paginate>
+
+			</f:then>
+			<f:else>
+				<p>No badge classes to show. Create at least one badge class to issue badges to earners.</p>
+			</f:else>
+		</f:if>
+	</div>
+	<div class="neos-footer">
+		<f:link.action action="new" class="neos-button neos-button-primary" title="Create new badge class">Create new badge class</f:link.action>
+	</div>
+</f:section>
+

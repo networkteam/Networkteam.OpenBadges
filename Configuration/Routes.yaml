@@ -1,0 +1,49 @@
+-
+  name: 'IssuerOrganizations Show'
+  uriPattern: 'issuers/{issuerOrganization}'
+  defaults:
+    '@package':    'Networkteam.OpenBadges'
+    '@controller': 'IssuerOrganization'
+    '@action':     'show'
+    '@format':     'json'
+  httpMethods: ['GET']
+
+-
+  name: 'BadgeClass List'
+  uriPattern: 'badges'
+  defaults:
+    '@package':    'Networkteam.OpenBadges'
+    '@controller': 'BadgeClass'
+    '@action':     'index'
+    '@format':     'json'
+  httpMethods: ['GET']
+
+-
+  name: 'BadgeClass Show'
+  uriPattern: 'badges/{badgeClass}'
+  defaults:
+    '@package':    'Networkteam.OpenBadges'
+    '@controller': 'BadgeClass'
+    '@action':     'show'
+    '@format':     'json'
+  httpMethods: ['GET']
+
+-
+  name: 'BadgeAssertion Show'
+  uriPattern: 'assertions/{badgeAssertion}'
+  defaults:
+    '@package':    'Networkteam.OpenBadges'
+    '@controller': 'BadgeAssertion'
+    '@action':     'show'
+    '@format':     'json'
+  httpMethods: ['GET']
+
+-
+  name: 'BadgeAssertion Create'
+  uriPattern: 'assertions'
+  defaults:
+    '@package':    'Networkteam.OpenBadges'
+    '@controller': 'BadgeAssertion'
+    '@action':     'create'
+    '@format':     'json'
+  httpMethods: ['POST']

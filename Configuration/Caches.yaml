@@ -1,0 +1,6 @@
+Networkteam_OpenBadges_AssertionStepStore:
+  frontend: TYPO3\Flow\Cache\Frontend\VariableFrontend
+  backend: TYPO3\Flow\Cache\Backend\FileBackend
+  backendOptions:
+    # Assertion steps should be valid for 4 hours
+    defaultLifetime: 14400
