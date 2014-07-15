@@ -1,7 +1,7 @@
 {
 	"name": "networkteam/openbadges",
 	"type": "typo3-flow-package",
-	"description": "An open badges issuer implementation for TYPO3 Flow and Neos",
+	"description": "A Mozilla OpenBadges issuer implementation for TYPO3 Flow and Neos",
 	"license": "MIT",
 	"authors": [
 		{
