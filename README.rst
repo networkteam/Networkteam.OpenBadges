@@ -8,8 +8,7 @@ What does it do?
 
 This package provides the infrastructure to issue OpenBadges badges from a TYPO3 Neos system.
 The badge classes can be managed with a backend module and several REST endpoints provide assertion metadata for *hosted*
-assertions. A node type to reward a badge once one or multiple validations of an assertion are complete is supplied. This
-can be used in conjunction with 
+assertions. A node type to reward a badge once one or multiple validations of an assertion are complete is supplied.
 
 Installation
 ------------
