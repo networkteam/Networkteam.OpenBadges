@@ -1,66 +1,72 @@
 {namespace m=TYPO3\Media\ViewHelpers}
 {namespace neos=TYPO3\Neos\ViewHelpers}
 <div class="openbadges-badge-reward container-fluid" data-identifier="{node.identifier}">
-	<div class="openbadges-badge-reward-content row">
+	<f:if condition="{badgeClass}">
+		<f:then>
+			<div class="openbadges-badge-reward-content row">
 
-		<div class="col-sm-3">
+				<div class="col-sm-3">
 
-			<div class="openbadges-badge centered" data-identifier="{badgeClass -> f:format.identifier()}">
-				<m:image asset="{badgeClass.image}" allowCropping="false" maximumWidth="200" maximumHeight="200" alt="{badgeClass.name}" class="openbadges-badge-image" />
-			</div>
-
-		</div>
-		<div class="col-sm-8">
-
-			<div class="openbadges-badge-information">
-				<h3>{badgeClass.name}</h3>
-				<p>{badgeClass.description}</p>
-			</div>
-
-			<ul class="openbadges-badge-assertion-steps">
-				<f:for each="{badgeClass.assertionSteps}" as="stepIdentifier">
-					<li data-identifier="{stepIdentifier}"></li>
-				</f:for>
-			</ul>
-
-			<button class="btn btn-primary openbadges-claim-button disabled" data-toggle="modal" data-target="#modal-{node.identifier}">
-				Claim your badge <span class="badge"><span class="openbadges-status-current">0</span> / <span class="openbadges-status-count">0</span></span>
-			</button>
-		</div>
-	</div>
-
-	<div class="modal fade openbadges-reward-modal" id="modal-{node.identifier}" tabindex="-1" role="dialog" aria-labelledby="modal-{node.identifier}-label" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="modal-{node.identifier}-label">Claim your badge</h4>
-				</div>
-				<div class="modal-body">
-					<h2>Congratulations!</h2>
-					<p>
-						You earned the <strong>{badgeClass.name}</strong> badge!
-					</p>
-					<div class="openbadges-badge-image centered">
-						<m:image asset="{badgeClass.image}" allowCropping="false" maximumWidth="200" maximumHeight="200" alt="{badgeClass.name}" />
+					<div class="openbadges-badge centered" data-identifier="{badgeClass -> f:format.identifier()}">
+						<m:image asset="{badgeClass.image}" allowCropping="false" maximumWidth="200" maximumHeight="200" alt="{badgeClass.name}" class="openbadges-badge-image" />
 					</div>
-					<h3>Send to Mozilla Backpack</h3>
-					<p>
-						You can store this badge in a <a href="https://backpack.openbadges.org/" target="_blank">Mozilla Backpack</a> account. It's part of the <a href="http://openbadges.org/" target="_blank">OpenBadges</a> project and used to collect
-						badges from many different sites.
-					</p>
-					<form class="form-inline" action="{f:uri.action(action: 'create', controller: 'BadgeAssertion', package: 'Networkteam.OpenBadges', format: 'json')}">
-						<div class="form-group">
-							<label class="sr-only" for="modal-{node.identifier}-email">Email address</label>
-							<input type="email" class="form-control" id="modal-{node.identifier}-email" placeholder="Enter email" required="required" />
-						</div>
-						<button type="submit" class="btn btn-default" data-loading-text="Loading...">Send to Backpack</button>
-					</form>
-					<p><small>Note: we will not store the email address or send you emails (see our <neos:link.node node="{privacyPolicyNode}" target="_blank">Privacy Policy</neos:link.node>). It's only needed to create your personal badge.</small></p>
-					<div class="openbadges-messages"></div>
+
+				</div>
+				<div class="col-sm-8">
+
+					<div class="openbadges-badge-information">
+						<h3>{badgeClass.name}</h3>
+						<p>{badgeClass.description}</p>
+					</div>
+
+					<ul class="openbadges-badge-assertion-steps">
+						<f:for each="{badgeClass.assertionSteps}" as="stepIdentifier">
+							<li data-identifier="{stepIdentifier}"></li>
+						</f:for>
+					</ul>
+
+					<button class="btn btn-primary openbadges-claim-button disabled" data-toggle="modal" data-target="#modal-{node.identifier}">
+						Claim your badge <span class="badge"><span class="openbadges-status-current">0</span> / <span class="openbadges-status-count">0</span></span>
+					</button>
 				</div>
 			</div>
-		</div>
-	</div>
 
+			<div class="modal fade openbadges-reward-modal" id="modal-{node.identifier}" tabindex="-1" role="dialog" aria-labelledby="modal-{node.identifier}-label" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="modal-{node.identifier}-label">Claim your badge</h4>
+						</div>
+						<div class="modal-body">
+							<h2>Congratulations!</h2>
+							<p>
+								You earned the <strong>{badgeClass.name}</strong> badge!
+							</p>
+							<div class="openbadges-badge-image centered">
+								<m:image asset="{badgeClass.image}" allowCropping="false" maximumWidth="200" maximumHeight="200" alt="{badgeClass.name}" />
+							</div>
+							<h3>Send to Mozilla Backpack</h3>
+							<p>
+								You can store this badge in a <a href="https://backpack.openbadges.org/" target="_blank">Mozilla Backpack</a> account. It's part of the <a href="http://openbadges.org/" target="_blank">OpenBadges</a> project and used to collect
+								badges from many different sites.
+							</p>
+							<form class="form-inline" action="{f:uri.action(action: 'create', controller: 'BadgeAssertion', package: 'Networkteam.OpenBadges', format: 'json')}">
+								<div class="form-group">
+									<label class="sr-only" for="modal-{node.identifier}-email">Email address</label>
+									<input type="email" class="form-control" id="modal-{node.identifier}-email" placeholder="Enter email" required="required" />
+								</div>
+								<button type="submit" class="btn btn-default" data-loading-text="Loading...">Send to Backpack</button>
+							</form>
+							<p><small>Note: we will not store the email address or send you emails (see our <neos:link.node node="{privacyPolicyNode}" target="_blank">Privacy Policy</neos:link.node>). It's only needed to create your personal badge.</small></p>
+							<div class="openbadges-messages"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</f:then>
+		<f:else>
+			<p>No badge class selected.</p>
+		</f:else>
+	</f:if>
 </div>
