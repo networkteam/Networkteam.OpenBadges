@@ -49,7 +49,7 @@ class ShowJson extends AbstractView {
 			'uid' => $badgeAssertionIdentifier,
 			'recipient' => $badgeAssertion->getIdentityObject(),
 			'badge' => $badgeClassUri,
-			'verification' => array(
+			'verify' => array(
 				'type' => 'hosted',
 				'url' => $badgeAssertionUri
 			),
