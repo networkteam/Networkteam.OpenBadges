@@ -66,7 +66,7 @@ TYPO3:
     persistence:
       doctrine:
         eventListeners:
-          -
+          'Networkteam\OpenBadges\Domain\EventListener\BadgeClassEventListener':
             events: ['postUpdate']
             listener: 'Networkteam\OpenBadges\Domain\EventListener\BadgeClassEventListener'
 

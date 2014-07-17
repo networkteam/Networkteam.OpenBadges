@@ -16,7 +16,7 @@ class PersistenceHelper implements \TYPO3\Eel\ProtectedContextAwareInterface {
 	 * @return string
 	 */
 	public function identifier($object) {
-		return $this->persistenceManager->getIdentifierByObject($object);
+		return is_object($object) ? $this->persistenceManager->getIdentifierByObject($object) : NULL;
 	}
 
 	/**

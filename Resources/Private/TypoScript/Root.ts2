@@ -6,8 +6,10 @@ prototype(Networkteam.OpenBadges:BadgeReward) {
 			node = ${node}
 		}
 		entryTags {
+			# Flush on node changes
+			1 = ${'Node_' + node.identifier}
 			# This tag is flushed by the BadgeClassEventListener
-			1 = ${'BadgeClass_' + Networkteam.OpenBadges.Persistence.identifier(node.properties.badgeClass)}
+			2 = ${'BadgeClass_' + Networkteam.OpenBadges.Persistence.identifier(node.properties.badgeClass)}
 		}
 	}
 }
