@@ -11,14 +11,13 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 			stepIdentifier: stepIdentifier,
 			token: token
 		});
-		console.debug('Assertion step validated', badgeClassIdentifier, stepIdentifier, token);
 	};
 
 	$.fn.badgeRewardWidget = function(options) {
 
 		var $this = $(this),
 			$steps = $this.find('.openbadges-badge-assertion-steps'),
-			badgeClassIdentifier = $this.find('.openbadge-badge').data('identifier'),
+			badgeClassIdentifier = $this.find('.openbadges-badge').data('identifier'),
 			nodeIdentifier = $this.data('identifier'),
 			assertionSteps = {},
 			assertionStepsCount;
@@ -60,7 +59,6 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 		}
 
 		$(document).on('OpenBadges:AssertionStepValidated', function(event) {
-			console.debug('Received OpenBadges:AssertionStepValidated event', event)
 			if (event.badgeClassIdentifier === badgeClassIdentifier) {
 				if (assertionSteps[event.stepIdentifier]) {
 					assertionSteps[event.stepIdentifier].validated = true;
@@ -74,9 +72,12 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 			}
 		});
 
+		function showMessage(severity, message) {
+			$('.openbadges-messages').empty().append($('<div class="alert alert-' + severity + '" role="alert">' + message + '</div>'));
+		}
+
 		$('.openbadges-reward-modal form').submit(function(e) {
-			var $form = $(this),
-				$xhr;
+			var $form = $(this);
 			e.preventDefault();
 
 			$.post($form.attr('action'), {
@@ -85,25 +86,26 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 				tokens: $.map(assertionSteps, function(value) { return value.token; })
 			}).done(function(result) {
 				$form.fadeOut();
-				$('.openbadges-messages').empty().append($('<div class="alert alert-info" role="alert">Now sending your badge to Mozilla Backpack...</div>'));
+				showMessage('info', 'Sending your badge to Mozilla Backpack...');
 
 				if (result.location) {
 					OpenBadges.issue([result.location], function(errors, successes) {
-						// errors => [{assertion: 'http://...', reason: 'INACCESSIBLE'}]
-						console.debug(errors, successes);
-
-						// TODO Show error / success mesage and close button
+						if (errors && errors[0]) {
+							showMessage('danger', '<strong>Error!</strong> Badge could not be sent to Backpack: ' + errors[0].reason);
+						} else {
+							showMessage('success', '<strong>Success!</strong> Your badge was transferred. You can safely close this window.');
+						}
 					});
 				} else {
-					// TODO Handle missing assertion URI
+					showMessage('danger', '<strong>Error!</strong> No assertion location given. Please retry.');
 				}
 			}).fail(function() {
-				$('.openbadges-messages').empty().append($('<div class="alert alert-danger" role="alert"><strong>Error!</strong> There was an error claiming you badge.</div>'));
+				showMessage('danger', '<strong>Error!</strong> There was an error claiming you badge. This can be caused by a timeout, please reload and try again!');
 			}).always(function() {
-				// TODO Remove spinner / loader from button
+				$form.find('.btn').button('reset');
 			});
 
-			// TODO Add spinner / loader to button
+			$form.find('.btn').button('loading');
 
 			return false;
 		});

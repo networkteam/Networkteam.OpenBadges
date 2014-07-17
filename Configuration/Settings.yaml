@@ -60,3 +60,17 @@ TYPO3:
     typoScript:
       autoInclude:
         'Networkteam.OpenBadges': TRUE
+
+  Flow:
+
+    persistence:
+      doctrine:
+        eventListeners:
+          -
+            events: ['postUpdate']
+            listener: 'Networkteam\OpenBadges\Domain\EventListener\BadgeClassEventListener'
+
+  TypoScript:
+
+    defaultContext:
+      'Networkteam.OpenBadges.Persistence': 'Networkteam\OpenBadges\TypoScript\Helper\PersistenceHelper'

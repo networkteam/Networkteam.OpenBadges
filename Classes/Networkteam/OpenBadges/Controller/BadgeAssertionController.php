@@ -44,7 +44,7 @@ class BadgeAssertionController extends ActionController {
 	 * @param array<string> $tokens
 	 */
 	public function createAction(BadgeClass $badgeClass, $recipientEmail, array $tokens) {
-		if ($this->badgeAsserter->validateAssertion($badgeClass, $tokens)) {
+		if ($this->badgeAsserter->validateAndClearAssertionSteps($badgeClass, $tokens)) {
 			$badgeAssertion = new BadgeAssertion();
 			$badgeAssertion->setBadgeClass($badgeClass);
 			$badgeAssertion->setIssuedOn(new \DateTime());

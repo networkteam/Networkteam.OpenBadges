@@ -1,3 +1,16 @@
+prototype(Networkteam.OpenBadges:BadgeReward) {
+	# Use a cached segment to flush a cache entry whenever the badge class is updated
+	@cache {
+		mode = 'cached'
+		entryIdentifier {
+			node = ${node}
+		}
+		entryTags {
+			# This tag is flushed by the BadgeClassEventListener
+			1 = ${'BadgeClass_' + Networkteam.OpenBadges.Persistence.identifier(node.properties.badgeClass)}
+		}
+	}
+}
 
 prototype(TYPO3.Neos:Page) {
 	body.javascripts {

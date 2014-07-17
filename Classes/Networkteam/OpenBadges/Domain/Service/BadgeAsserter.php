@@ -32,13 +32,13 @@ class BadgeAsserter {
 	}
 
 	/**
-	 * Validate that all required assertion steps of a badge were completed
+	 * Validate that all required assertion steps of a badge were completed and remove the stored assertion steps for all tokens
 	 *
 	 * @param BadgeClass $badgeClass
 	 * @param array $tokens
 	 * @return boolean
 	 */
-	public function validateAssertion(BadgeClass $badgeClass, array $tokens) {
+	public function validateAndClearAssertionSteps(BadgeClass $badgeClass, array $tokens) {
 		$completedAssertionSteps = array();
 
 		foreach ($tokens as $token) {
@@ -52,6 +52,10 @@ class BadgeAsserter {
 			if (!isset($completedAssertionSteps[$stepIdentifier])) {
 				return FALSE;
 			}
+		}
+
+		foreach ($tokens as $token) {
+			$this->assertionStepStore->remove($token);
 		}
 
 		return TRUE;
