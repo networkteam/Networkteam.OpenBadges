@@ -12,14 +12,15 @@ use TYPO3\Flow\Cache\Frontend\VariableFrontend;
 class BadgeAsserter {
 
 	/**
-	 * @var \TYPO3\Flow\Cache\Frontend\VariableFrontend
+	 * @var VariableFrontend
 	 */
 	protected $assertionStepStore;
 
 	/**
 	 * Assert that one step for a badge assertion was successful and store a time-limited proof on the server
 	 *
-	 * @param string $stepName A (fixed) identifier for the assertion step
+	 * @param BadgeClass $badgeClass
+	 * @param string $stepIdentifier A (fixed) identifier for the assertion step
 	 * @return AssertionStep
 	 */
 	public function assertStep(BadgeClass $badgeClass, $stepIdentifier) {
@@ -31,7 +32,33 @@ class BadgeAsserter {
 	}
 
 	/**
-	 * @param \TYPO3\Flow\Cache\Frontend\VariableFrontend $assertionStepStore
+	 * Validate that all required assertion steps of a badge were completed
+	 *
+	 * @param BadgeClass $badgeClass
+	 * @param array $tokens
+	 * @return boolean
+	 */
+	public function validateAssertion(BadgeClass $badgeClass, array $tokens) {
+		$completedAssertionSteps = array();
+
+		foreach ($tokens as $token) {
+			$assertionStep = $this->assertionStepStore->get($token);
+			if ($assertionStep instanceof AssertionStep && $assertionStep->getBadgeClass() === $badgeClass) {
+				$completedAssertionSteps[$assertionStep->getIdentifier()] = $assertionStep;
+			}
+		}
+
+		foreach ($badgeClass->getAssertionSteps() as $stepIdentifier) {
+			if (!isset($completedAssertionSteps[$stepIdentifier])) {
+				return FALSE;
+			}
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * @param VariableFrontend $assertionStepStore
 	 */
 	public function setAssertionStepStore($assertionStepStore) {
 		$this->assertionStepStore = $assertionStepStore;

@@ -14,6 +14,13 @@
         reloadIfChanged: TRUE
         inspector:
           group: 'badgeAssertion'
+    badgeAssertionStep:
+      type: 'string'
+      ui:
+        label: 'Assertion step identifier'
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'badgeAssertion'
 
 'Networkteam.OpenBadges:BadgeReward':
   superTypes: ['TYPO3.Neos:Content']

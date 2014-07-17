@@ -9,10 +9,8 @@
 	</div>
 
 	<ul class="openbadges-badge-assertion-steps">
-		<f:for each="{badgeAssertionSteps}" as="step">
-			<f:if condition="{badgeClass} == {step.properties.badgeClass}">
-				<li data-identifier="{step.identifier}"></li>
-			</f:if>
+		<f:for each="{badgeClass.assertionSteps}" as="stepIdentifier">
+			<li data-identifier="{stepIdentifier}"></li>
 		</f:for>
 	</ul>
 

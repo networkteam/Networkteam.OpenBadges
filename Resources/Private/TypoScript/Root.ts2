@@ -1,7 +1,3 @@
-prototype(Networkteam.OpenBadges:BadgeReward) {
-	# TODO This will select too many assertion steps if multiple badges are rewarded on a single page (or if badgeClass is null for a step)
-	badgeAssertionSteps = ${q(documentNode).children('[instanceof TYPO3.Neos:ContentCollection]').find('[instanceof Networkteam.OpenBadges:BadgeAssertionStep]')}
-}
 
 prototype(TYPO3.Neos:Page) {
 	body.javascripts {

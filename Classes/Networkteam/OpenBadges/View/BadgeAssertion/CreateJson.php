@@ -12,6 +12,11 @@ class CreateJson extends AbstractView {
 	 */
 	public function render() {
 		$this->controllerContext->getResponse()->setHeader('Content-Type', 'application/json');
+
+		if (isset($this->variables['error'])) {
+			return json_encode(array('error' => $this->variables['error']));
+		}
+
 		if (!isset($this->variables['value']) || !$this->variables['value'] instanceof BadgeAssertion) {
 			throw new \InvalidArgumentException('ShowJson view expects a BadgeAssertion instance in the "value" variable', 1405435021);
 		}

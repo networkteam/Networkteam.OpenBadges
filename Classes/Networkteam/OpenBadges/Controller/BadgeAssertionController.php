@@ -4,6 +4,7 @@ namespace Networkteam\OpenBadges\Controller;
 use Networkteam\OpenBadges\Domain\Model\BadgeAssertion;
 use Networkteam\OpenBadges\Domain\Model\BadgeClass;
 use Networkteam\OpenBadges\Domain\Repository\BadgeAssertionRepository;
+use Networkteam\OpenBadges\Domain\Service\BadgeAsserter;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 
@@ -16,6 +17,12 @@ class BadgeAssertionController extends ActionController {
 	 * @var BadgeAssertionRepository
 	 */
 	protected $badgeAssertionRepository;
+
+	/**
+	 * @Flow\Inject
+	 * @var BadgeAsserter
+	 */
+	protected $badgeAsserter;
 
 	/**
 	 * Show a badge assertion
@@ -37,19 +44,25 @@ class BadgeAssertionController extends ActionController {
 	 * @param array<string> $tokens
 	 */
 	public function createAction(BadgeClass $badgeClass, $recipientEmail, array $tokens) {
-		// TODO Check if tokens exist in assertion step store and get the step identifiers
-		// TODO Check if all step identifiers for the badge class are completed
+		if ($this->badgeAsserter->validateAssertion($badgeClass, $tokens)) {
+			$badgeAssertion = new BadgeAssertion();
+			$badgeAssertion->setBadgeClass($badgeClass);
+			$badgeAssertion->setIssuedOn(new \DateTime());
+			$badgeAssertion->setRecipientEmail($recipientEmail);
 
-		$badgeAssertion = new BadgeAssertion();
-		$badgeAssertion->setBadgeClass($badgeClass);
-		$badgeAssertion->setIssuedOn(new \DateTime());
-		$badgeAssertion->setRecipientEmail($recipientEmail);
+			$this->badgeAssertionRepository->add($badgeAssertion);
 
-		$this->badgeAssertionRepository->add($badgeAssertion);
+			$this->view->assign('value', $badgeAssertion);
 
-		$this->view->assign('value', $badgeAssertion);
+			$this->response->setStatus(201);
+		} else {
+			$this->view->assign('error', array(
+				'message' => 'A required assertion step for this badge was not completed',
+				'code' => 'MissingAssertionStep'
+			));
 
-		$this->response->setStatus(201);
+			$this->response->setStatus(403);
+		}
 	}
 
 }

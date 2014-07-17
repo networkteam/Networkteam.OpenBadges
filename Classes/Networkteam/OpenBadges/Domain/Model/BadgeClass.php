@@ -62,6 +62,14 @@ class BadgeClass {
 	protected $tags = array();
 
 	/**
+	 * List of assertion steps that need to be validated before issuing this badge
+	 *
+	 * @ORM\Column(type="json_array")
+	 * @var array<string>
+	 */
+	protected $assertionSteps = array();
+
+	/**
 	 * @param string $criteria
 	 */
 	public function setCriteria($criteria) {
@@ -149,7 +157,8 @@ class BadgeClass {
 	 * @return string
 	 */
 	public function getTagsString() {
-		return implode(', ', $this->tags);
+		$tags = is_array($this->tags) ? $this->tags : array();
+		return implode(', ', $tags);
 	}
 
 	/**
@@ -157,6 +166,35 @@ class BadgeClass {
 	 */
 	public function setTagsString($tagsString) {
 		$this->tags = \TYPO3\Flow\Utility\Arrays::trimExplode(',', $tagsString, TRUE);
+	}
+
+	/**
+	 * @param array $assertionSteps
+	 */
+	public function setAssertionSteps($assertionSteps) {
+		$this->assertionSteps = $assertionSteps;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAssertionSteps() {
+		return $this->assertionSteps;
+	}
+
+	/**
+	 * @param string $assertionStepsString
+	 */
+	public function setAssertionStepsString($assertionStepsString) {
+		$this->assertionSteps = \TYPO3\Flow\Utility\Arrays::trimExplode(',', $assertionStepsString, TRUE);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAssertionStepsString() {
+		$assertionSteps = is_array($this->assertionSteps) ? $this->assertionSteps : array();
+		return implode(', ', $assertionSteps);
 	}
 
 }
