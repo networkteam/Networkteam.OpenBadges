@@ -11,8 +11,6 @@ class IssuerOrganizationController extends ActionController {
 
 	protected $supportedMediaTypes = array('application/json');
 
-	protected $viewFormatToObjectNameMap = array('json' => 'TYPO3\Flow\Mvc\View\JsonView');
-
 	/**
 	 * @Flow\Inject
 	 * @var IssuerOrganizationsRepositoryInterface
@@ -27,14 +25,6 @@ class IssuerOrganizationController extends ActionController {
 	public function showAction(IssuerOrganization $issuerOrganization) {
 		/** @var \Networkteam\OpenBadges\Domain\Model\IssuerOrganization $issuerOrganization */
 		$issuerOrganization->setBaseUriForDefaultUrl($this->request->getHttpRequest()->getBaseUri());
-
-		if ($this->view instanceof JsonView) {
-			$this->view->setConfiguration(array(
-				'value' => array(
-	 				'_exclude' => array('identifier')
-				)
-			));
-		}
 
 		$this->view->assign('value', $issuerOrganization);
 	}
