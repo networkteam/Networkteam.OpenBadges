@@ -14,7 +14,6 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 	};
 
 	$.fn.badgeRewardWidget = function(options) {
-
 		var $this = $(this),
 			$steps = $this.find('.openbadges-badge-assertion-steps'),
 			badgeClassIdentifier = $this.find('.openbadges-badge').data('identifier'),
@@ -32,31 +31,10 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 		});
 		assertionStepsCount = $steps.find('li').length;
 
-		function completedAssertionSteps() {
-			var count = 0,
-				identifier;
-			for (identifier in assertionSteps) {
-				if (assertionSteps.hasOwnProperty(identifier) && assertionSteps[identifier].validated) {
-					count++;
-				}
-			}
-			return count;
-		}
-
 		$this.find('.openbadges-status-count').text(assertionStepsCount);
 
-		function enableClaimButtonIfCompleted() {
-			if (completedAssertionSteps() === assertionStepsCount) {
-				$this.find('.openbadges-claim-button').removeClass('disabled');
-			}
-		}
-
-		enableClaimButtonIfCompleted();
-
-		function showModalIfCompleted() {
-			if (completedAssertionSteps() === assertionStepsCount) {
-				$('#modal-' + nodeIdentifier).modal();
-			}
+		if (completedAssertionSteps() === assertionStepsCount) {
+			enableClaimButton();
 		}
 
 		$(document).on('OpenBadges:AssertionStepValidated', function(event) {
@@ -68,20 +46,18 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 
 				$this.find('.openbadges-status-current').text(completedAssertionSteps());
 
-				showModalIfCompleted();
-				enableClaimButtonIfCompleted();
+				if (completedAssertionSteps() === assertionStepsCount) {
+					showClaimBadgeModal();
+					enableClaimButton();
 
-				$.event.trigger({
-					type: 'OpenBadges:AssertionsValidated',
-					badgeClassIdentifier: badgeClassIdentifier,
-					badgeClassName: badgeClassName
-				});
+					$.event.trigger({
+						type: 'OpenBadges:AssertionsValidated',
+						badgeClassIdentifier: badgeClassIdentifier,
+						badgeClassName: badgeClassName
+					});
+				}
 			}
 		});
-
-		function showMessage(severity, message) {
-			$('.openbadges-messages').empty().append($('<div class="alert alert-' + severity + '" role="alert">' + message + '</div>'));
-		}
 
 		$('.openbadges-reward-modal form').submit(function(e) {
 			var $form = $(this);
@@ -123,6 +99,28 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 			return false;
 		});
 
+		function completedAssertionSteps() {
+			var count = 0,
+				identifier;
+			for (identifier in assertionSteps) {
+				if (assertionSteps.hasOwnProperty(identifier) && assertionSteps[identifier].validated) {
+					count++;
+				}
+			}
+			return count;
+		}
+
+		function enableClaimButton() {
+			$this.find('.openbadges-claim-button').removeClass('disabled');
+		}
+
+		function showClaimBadgeModal() {
+			$('#modal-' + nodeIdentifier).modal();
+		}
+
+		function showMessage(severity, message) {
+			$('.openbadges-messages').empty().append($('<div class="alert alert-' + severity + '" role="alert">' + message + '</div>'));
+		}
 	};
 
 	$('.openbadges-badge-reward').badgeRewardWidget();
