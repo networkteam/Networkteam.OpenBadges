@@ -18,6 +18,7 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 		var $this = $(this),
 			$steps = $this.find('.openbadges-badge-assertion-steps'),
 			badgeClassIdentifier = $this.find('.openbadges-badge').data('identifier'),
+			badgeClassName = $this.find('.openbadges-badge').data('name'),
 			nodeIdentifier = $this.data('identifier'),
 			assertionSteps = {},
 			assertionStepsCount;
@@ -69,6 +70,12 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 
 				showModalIfCompleted();
 				enableClaimButtonIfCompleted();
+
+				$.event.trigger({
+					type: 'OpenBadges:AssertionsValidated',
+					badgeClassIdentifier: badgeClassIdentifier,
+					badgeClassName: badgeClassName
+				});
 			}
 		});
 
@@ -94,6 +101,12 @@ Networkteam.OpenBadges = Networkteam.OpenBadges||{};
 							showMessage('danger', '<strong>Error!</strong> Badge could not be sent to Backpack: ' + errors[0].reason);
 						} else {
 							showMessage('success', '<strong>Success!</strong> Your badge was transferred. You can safely close this window.');
+
+							$.event.trigger({
+								type: 'OpenBadges:BadgeIssued',
+								badgeClassIdentifier: badgeClassIdentifier,
+								badgeClassName: badgeClassName
+							});
 						}
 					});
 				} else {
